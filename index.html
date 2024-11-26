@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackMySpend</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <!-- Тут лого кароче -->
+        <div class="flex justify-center mb-6">
+            <img src="logo.png" alt="TrackMySpend Logo" class="h-16">
+        </div>
+
+        <!-- тут заголовок не забудьте -->
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">TrackMySpend</h1>
+
+        <!-- расходы всякие добавляются -->
+        <div class="mb-6 space-y-4">
+            <input type="text" id="expense-name" placeholder="Расход"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+            <input type="number" id="expense-amount" placeholder="Сумма"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+            <button id="add-expense" class="w-full py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                Добавить Расход
+            </button>
+        </div>
+
+        <!-- здесь список расходов -->
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Расходы</h2>
+            <ul id="expenses" class="space-y-4">
+
+            </ul>
+        </div>
+
+        <!-- Сумма расходов бл -->
+        <div class="mt-6 text-xl font-bold text-gray-800">
+            Сумма Расходов: <span id="total-amount" class="text-green-500">0</span> ₸
+        </div>
+    </div>
+
+    <!-- тут скрипт логический чтоб считал мраз -->
+    <script>
+        // Получаем элементы
+        const expenseName = document.getElementById("expense-name");
+        const expenseAmount = document.getElementById("expense-amount");
+        const addExpenseButton = document.getElementById("add-expense");
+        const expensesList = document.getElementById("expenses");
+        const totalAmount = document.getElementById("total-amount");
+
+        let total = 0;
+
+        // Добавляется расход
+        addExpenseButton.addEventListener("click", () => {
+            const name = expenseName.value.trim();
+            const amount = parseFloat(expenseAmount.value);
+
+            if (name && !isNaN(amount) && amount > 0) {
+                // Добавляется в список
+                const listItem = document.createElement("li");
+                listItem.className = "flex justify-between bg-gray-100 p-3 rounded-lg";
+                listItem.innerHTML = `<span>${name}</span><span class="text-green-500 font-semibold">${amount} ₸</span>`;
+                expensesList.appendChild(listItem);
+
+                // Обновляется общая сумма
+                total += amount;
+                totalAmount.textContent = total.toFixed(2);
+
+                // Очищаются поля
+                expenseName.value = "";
+                expenseAmount.value = "";
+            } else {
+                alert("Нормально введи сумму и расход жиесс.");
+            }
+        });
+    </script>
+
+</body>
+</html>
